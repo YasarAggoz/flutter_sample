@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "831280805722",
+    "project_id": "dizi-d26c0",
+    "storage_bucket": "dizi-d26c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831280805722:android:2f4c29ce538e60ae29a563",
+        "android_client_info": {
+          "package_name": "com.example.flutter_sample"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYupDqVIFWNNd4a6KFS3rj6yZH20-ue3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
