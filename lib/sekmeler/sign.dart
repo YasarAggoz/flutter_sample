@@ -1,5 +1,7 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dizi_takip/sekmeler/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class signpage extends StatefulWidget {
@@ -11,14 +13,18 @@ class signpage extends StatefulWidget {
 }
 
 class _signpageState extends State<signpage> {
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  TextEditingController ussernamecontroller =TextEditingController();
+  TextEditingController surnamecontroller =TextEditingController();
+  TextEditingController telcontroller =TextEditingController();
   TextEditingController emailcontroller =TextEditingController();
   TextEditingController passwordcontroller =TextEditingController();
+  FirebaseAuth denem = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
 
-
-
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
     return  Scaffold (
       appBar: AppBar(title: const Text("Üye Ol"),) ,
       body: SafeArea(
@@ -31,6 +37,11 @@ class _signpageState extends State<signpage> {
                     children:  [
                       const Center(child: Text("Üye Ol" , style: TextStyle(fontSize: 30, color: Colors.blue, fontWeight: FontWeight.bold),)),
                       const SizedBox(height: 20),
+                      textekle("Kullanıcı Adı", ussernamecontroller),
+
+                      textekle("Soyadı:", surnamecontroller),
+
+                      textekle("Tel:", telcontroller),
                       TextField(
                         controller: emailcontroller,
                         keyboardType: TextInputType.emailAddress,
@@ -68,30 +79,46 @@ class _signpageState extends State<signpage> {
                             )
                         ),
                       ),
-                      ElevatedButton(
-                          style:  ElevatedButton.styleFrom( primary: Colors.blue), child: null,
-
-
-                          onPressed:() async {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) {
-                              return
-                                const loginpage();
-                            }
-                            )
-                            );
-                          }
-                      ),
 
                       const SizedBox(height: 20),
-                      const Row(
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-                          SizedBox(width: 15),
+                          const SizedBox(width: 15),
                           Padding(
-                            padding: EdgeInsets.all(12.0),
+                            padding: const EdgeInsets.all(12.0),
+                            child: FloatingActionButton.extended(
+                              onPressed: () {
+                                if (emailcontroller.text.isNotEmpty & passwordcontroller.text.isNotEmpty) {
+                                  FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                      email: emailcontroller.text.trim(),
+                                      password: passwordcontroller.text.trim())
+                                      .then((value) =>
+                                  {
+                                    users.doc(denem.currentUser!.uid).set({
+                                      'name':ussernamecontroller.text,
+                                      'surname':surnamecontroller.text,
+                                      'tel':telcontroller.text,
+                                      'email':emailcontroller.text,
+                                      'userid':denem.currentUser!.uid,
+                                    }) ,
 
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => const loginpage())),
+
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(content: Text(
+                                        "Kullanıcı Oluşturuldu"))),
+                                  });
+                                }
+                                else { print("bos");  };
+                              },
+                              label: const Text('Üye Ol'),
+                              icon: const Icon(Icons.thumb_up),
+                              backgroundColor: Colors.blue,
+                            ),
                           ),
 
                         ],
@@ -107,6 +134,98 @@ class _signpageState extends State<signpage> {
     );
   }
 }
+
+//     return  Scaffold (
+//       appBar: AppBar(title: const Text("Üye Ol"),) ,
+//       body: SafeArea(
+//         child: Stack(
+//             children:[
+//               SingleChildScrollView(
+//                 child: Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 30 ),
+//                   child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+//                     children:  [
+//                       const Center(child: Text("Üye Ol" , style: TextStyle(fontSize: 30, color: Colors.blue, fontWeight: FontWeight.bold),)),
+//                       const SizedBox(height: 20),
+//                       TextField(
+//                         controller: emailcontroller,
+//                         keyboardType: TextInputType.emailAddress,
+//                         decoration: const InputDecoration(
+//                             hintText: "Mail adresi",
+//                             enabledBorder: UnderlineInputBorder(
+//                                 borderSide: BorderSide(
+//                                   color: Colors.grey,
+//                                 )
+//                             ),
+//                             focusedBorder: UnderlineInputBorder(
+//                                 borderSide: BorderSide(
+//                                   color: Colors.grey,
+//                                 )
+//                             )
+//                         ),
+//                       ),
+//                       TextField(
+//                         controller: passwordcontroller,
+//                         keyboardType: TextInputType.visiblePassword,
+//                         obscureText: true,
+//                         enableSuggestions: false,
+//                         autocorrect: false,
+//                         decoration: const InputDecoration(
+//                             hintText: "Parola",
+//                             enabledBorder: UnderlineInputBorder(
+//                                 borderSide: BorderSide(
+//                                   color: Colors.grey,
+//                                 )
+//                             ),
+//                             focusedBorder: UnderlineInputBorder(
+//                                 borderSide: BorderSide(
+//                                   color: Colors.grey,
+//                                 )
+//                             )
+//                         ),
+//                       ),
+//                       ElevatedButton(
+//                           style:  ElevatedButton.styleFrom( primary: Colors.blue), child: null,
+//
+//
+//                           onPressed:() async {
+//
+//
+//
+//                             Navigator.push(
+//                                 context, MaterialPageRoute(builder: (context) {
+//                               return
+//                                 const loginpage();
+//                             }
+//                             )
+//                             );
+//                           }
+//                       ),
+//
+//                       const SizedBox(height: 20),
+//                       const Row(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//
+//                         children: [
+//                           SizedBox(width: 15),
+//                           Padding(
+//                             padding: EdgeInsets.all(12.0),
+//
+//                           ),
+//
+//                         ],
+//                       ),
+//
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ]
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 

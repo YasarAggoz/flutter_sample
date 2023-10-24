@@ -1,4 +1,5 @@
 import 'package:dizi_takip/sekmeler/login.dart';
+import 'package:dizi_takip/sekmeler/userpage.dart';
 import 'package:flutter/material.dart';
 
 
@@ -35,7 +36,7 @@ class _HomepageState extends State<Homapage> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) {
                 return
-                  const loginpage();
+                   userpage();
               }
               ));
 

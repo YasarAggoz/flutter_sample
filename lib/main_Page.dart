@@ -1,40 +1,63 @@
+
 import 'package:dizi_takip/sekmeler/homepage.dart';
 import 'package:dizi_takip/sekmeler/login.dart';
 import 'package:dizi_takip/sekmeler/sign.dart';
-import 'package:dizi_takip/service/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class main_page extends StatelessWidget {
   const main_page({Key? key}) : super(key: key);
 
+  Future<void> main() async {
+
+  }
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-     backgroundColor: Colors.red,
-      body: SafeArea(
-        child: Stack(
-          children: [
-           Center(
-             child:  ElevatedButton(
-                 style:  ElevatedButton.styleFrom( primary: Colors.blue ), child: null,
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
 
+        builder: (context,snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: Text("Bağlantıda bir Sorun var."),) ;
+          }
+          else if (snapshot.hasData){
+            print(" Giriş yap Çalıştı");
+            return Homapage();
 
-                 onPressed:() async {
-                   Navigator.push(
-                       context, MaterialPageRoute(builder: (context) {
-                     return
-                       signpage();
-                   }
-                   )
-                   );
-                 }
-             ),
-           )
-          ],
-        )
-      )
+          } else {
+            print("çalssss") ;
+            return loginpage();
+
+          }
+        },
+
+      ),
+      // backgroundColor: Colors.red,
+
+      // body: SafeArea(
+      //   child: Stack(
+      //     children: [
+      //      Center(
+      //        child:  ElevatedButton(
+      //            style:  ElevatedButton.styleFrom( backgroundColor: Colors.blue ), child: null,
+      //
+      //
+      //            onPressed:() async {
+      //              Navigator.push(
+      //                  context, MaterialPageRoute(builder: (context) {
+      //                return
+      //                  loginpage();
+      //              }
+      //              )
+      //              );
+      //            }
+      //        ),
+      //      )
+      //     ],
+      //   )
+      // )
 
     );
   }
