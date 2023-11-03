@@ -1,7 +1,7 @@
-import 'package:dizi_takip/sekmeler/login.dart';
-import 'package:dizi_takip/sekmeler/userpage.dart';
-import 'package:flutter/material.dart';
 
+import 'package:dizi_takip/sekmeler/userpage.dart';
+import 'package:dizi_takip/widgetler/platformlar.dart';
+import 'package:flutter/material.dart';
 
 class Homapage extends StatefulWidget {
 
@@ -13,53 +13,32 @@ class _HomepageState extends State<Homapage> {
 
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 0;
-     const TextStyle optionStyle =
-    TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-     const List<Widget> _widgetOptions = <Widget>[
-      Text(
-        'Ana Sayfa',
-        style: optionStyle,
-      ),
-      Text(
-        'Tv',
-        style: optionStyle,
-      ),
-      Text(
-        'Login',
-        style: optionStyle,
-      ),
-      Text(
-        'Geçmiş',
-        style: optionStyle,
-      ),
-    ];
-
+    int selectedIndex = 0;
     void _onItemTapped(int index) {
       setState(() {
-        _selectedIndex = index;
-        if (_selectedIndex == 0)
+        selectedIndex = index;
+        if (selectedIndex == 0)
           {
             Navigator.push (
               context,
               MaterialPageRoute(builder: (context) => const Homapage()),
             );
           }
-        if (_selectedIndex == 1)
+        if (selectedIndex == 1)
         {
           Navigator.push (
             context,
             MaterialPageRoute(builder: (context) => const Homapage()),
           );
         }
-        if (_selectedIndex == 2)
+        if (selectedIndex == 2)
         {
           Navigator.push (
             context,
             MaterialPageRoute(builder: (context) =>  userpage()),
           );
         }
-        if (_selectedIndex == 3)
+        if (selectedIndex == 3)
         {
           Navigator.push (
             context,
@@ -67,68 +46,82 @@ class _HomepageState extends State<Homapage> {
           );
         }
 
-
-
-
       });
     }
     return Scaffold (
-        appBar: AppBar(
-          title: const Text('Ana Sayfa'),
+      backgroundColor: Colors.black45,
+      body: SafeArea(
+        child: Column (
+
+          children:  [
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only( top: 5,bottom: 5, ),
+                decoration: BoxDecoration(color: const Color(0x00000073), borderRadius: BorderRadius.circular(4) ),
+                child: Image.asset("assets/resimler/banner.png"),
+
+
+              ),
+
+            ),
+             const SizedBox(height: 5,) ,
+            platform("assets/resimler/net.png", context),
+            const SizedBox(height: 5,) ,
+            platform("assets/resimler/prime.png", context),
+            const SizedBox(height: 5,) ,
+            platform("assets/resimler/hbo.png", context ),
+            const SizedBox(height: 5,) ,
+            platform("assets/resimler/exxen.png", context),
+            const SizedBox(height: 5,) ,
+            platform("assets/resimler/tabii.png",context ),
+
+            // SizedBox(height: 10,) ,
+            // Padding(padding: EdgeInsets.only(top: 10),
+            // child: Container(
+            //   width: 400,
+            //   height: 100,
+            //   padding: EdgeInsets.only(left: 20,top: 15,bottom: 15,right: 30),
+            //   decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(30)),
+            //   child: Image.asset("assets/resimler/net.png"),
+            // ),
+            // ),
+
+
+         ],
+
         ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        // child: _widgetOptions.elementAt(selectedIndex),
+
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.tv),
-            label: 'Business',
+            label: 'tvseries',
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            label: 'School',
+            label: 'login',
             backgroundColor: Colors.purple,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.border_color_outlined),
-            label: 'Settings',
+            label: 'archive',
             backgroundColor: Colors.pink,
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
-
-
-        // child: Center(child: ElevatedButton(
-        //     style:
-        //     ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-        //     onPressed: () async {
-        //
-        //       Navigator.push(
-        //           context, MaterialPageRoute(builder: (context) {
-        //         return
-        //            userpage();
-        //       }
-        //       ));
-        //
-        //     },
-        //     child: const Text(
-        //       "Üye Ol",
-        //       style: TextStyle(fontSize: 25),
-        //     )
-        //
-        // ),
-        //
-        // )
     );
   }
 }

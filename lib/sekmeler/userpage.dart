@@ -15,8 +15,8 @@ class _userpageState extends State<userpage> {
   final user = FirebaseAuth.instance.currentUser;
 
   var _name;
-  var _surName;
   var _tel;
+  var _surName;
 
 
 
