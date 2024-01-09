@@ -1,4 +1,4 @@
-import 'package:dizi_takip/service/filtersservice.dart';
+
 import 'package:dizi_takip/service/rapidapi.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:dizi_takip/main_Page.dart';
@@ -8,12 +8,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 String service1 = 'netflix';
 String service2 = 'prime.subscription';
 String service3= 'hbo,hulu.addon.hbo,prime.addon.hbomaxus';
+final uri = Uri.https('streaming-availability.p.rapidapi.com', '/search/filters', {
+  'services': '',
+  'country': 'us',
+  'output_language': 'en',
+  'show_type': 'series'
+});
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     fetchRecipes(service1);
     fetchRecipes(service2);
     fetchRecipes(service3);
-    filterRecipeApi('batman');
 
   runApp(ProviderScope(child: MyApp()));
 

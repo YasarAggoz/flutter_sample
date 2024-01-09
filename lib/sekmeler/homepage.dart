@@ -7,6 +7,8 @@ import 'package:dizi_takip/service/rapidapi.dart';
 import 'package:dizi_takip/widgetler/platformlar.dart';
 import 'package:flutter/material.dart';
 
+import 'netflix.dart';
+
 class Homapage extends StatefulWidget {
 
   const Homapage({Key? key}) : super(key: key);
@@ -17,6 +19,33 @@ class _HomepageState extends State<Homapage> {
 
   @override
   Widget build(BuildContext context) {
+    String name = "";
+    Uri netuuri = Uri.https("streaming-availability.p.rapidapi.com", "/search/filters", {
+      "services": "netflix",
+      "country": "us",
+      "output_language": "en",
+      "show_type": "series"
+    });
+    Uri primeuuri = Uri.https("streaming-availability.p.rapidapi.com", "/search/filters", {
+      "services": "prime.subscription",
+      "country": "us",
+      "output_language": "en",
+      "show_type": "series"
+    });
+    Uri hbouuri = Uri.https("streaming-availability.p.rapidapi.com", "/search/filters", {
+      "services": "hbo,hulu.addon.hbo,prime.addon.hbomaxus",
+      "country": "us",
+      "output_language": "en",
+      "show_type": "series"
+    });
+    Uri appleuuri = Uri.https("streaming-availability.p.rapidapi.com", "/search/filters", {
+      "services": "apple.addon",
+      "country": "us",
+      "output_language": "en",
+      "show_type": "series"
+    });
+
+
     int selectedIndex = 0;
     void _onItemTapped(int index) {
       setState(() {
@@ -53,59 +82,112 @@ class _HomepageState extends State<Homapage> {
       });
     }
     return Scaffold (
-
-      backgroundColor: Colors.black45,
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.black87,
       body: SafeArea(
-        child: Column (
+        child: SingleChildScrollView(
+          child: Column (
 
-          children:  [
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.only( top: 5,bottom: 5, ),
-                decoration: BoxDecoration(color: const Color(0x00000073), borderRadius: BorderRadius.circular(4) ),
-                child: Image.asset("assets/resimler/banner.png"),
+            children:  [
+              Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only( top: 5,bottom: 5, ),
+                  decoration: BoxDecoration(color: const Color(0x00000073), borderRadius: BorderRadius.circular(4) ),
+                  child: Image.asset("assets/resimler/banner.png"),
 
 
-              ),
-
-            ),
-
-             const SizedBox(height: 5,) ,
-            platform("assets/resimler/net.png",'netflix', context),
-            const SizedBox(height: 5,) ,
-            platform("assets/resimler/prime.png",'prime.subscription', context),
-            const SizedBox(height: 5,) ,
-            platform("assets/resimler/hbo.png",'hbo,hulu.addon.hbo,prime.addon.hbomaxus', context ),
-            const SizedBox(height: 5,) ,
-            platform("assets/resimler/apple.png",'apple.addon',context),
-            const SizedBox(height: 5,) ,
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Tabiipage()),
-                );
-              },
-              child: Container(
-                width: 300,
-                height: 75,
-                padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 20),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(30),
                 ),
-                child: Image.asset("assets/resimler/tabii.png"),
+
               ),
-            ),
+
+               const SizedBox(height: 10,) ,
+              platform("assets/resimler/net.png", netuuri, context),
+              const SizedBox(height: 10,) ,
+              platform("assets/resimler/prime.png",primeuuri, context),
+              const SizedBox(height: 10,) ,
+              platform("assets/resimler/hbo.png",hbouuri, context ),
+              const SizedBox(height: 10,) ,
+              platform("assets/resimler/apple.png",appleuuri,context),
+              const SizedBox(height: 10,) ,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Tabiipage()),
+                  );
+                },
+                child: Container(
+                  width: 300,
+                  height: 75,
+                  padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Image.asset("assets/resimler/tabii.png"),
+                ),
+              ),
+              const SizedBox(height: 15,) ,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.grey,
+                  onPrimary: Colors.black87
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+
+                        title: Text('Arama'),
+                        content: TextField(
+                          onChanged: (value) {
+                            setState(() {
+                              name = value; // Assign the input value to the `name` variable
+                            });
+                          },
+                        ),
+                        actions: [
+                          ElevatedButton(
+
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Kapat'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Uri titleuuri = Uri.https("streaming-availability.p.rapidapi.com", "/search/title", {
+                                "title":"$name",
+                                "country": "us",
+                                "show_type": "series",
+                                "output_language": "en"
+
+                              });
+                              Navigator.push (
+                                context,
+                                MaterialPageRoute(builder: (context) =>  Netfilix("assets/resimler/banner.png", titleuuri)),
+                              );
+
+                            },
+                            child: Text('Ara'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+
+                child: Icon(Icons.search),
+              ),
 
 
+           ],
 
 
-         ],
-
-
+          ),
         ),
 
 

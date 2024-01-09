@@ -1,6 +1,5 @@
 
 import 'package:dizi_takip/model/cardmodel.dart';
-import 'package:dizi_takip/service/filtersservice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,9 +9,10 @@ import '../service/recipeapi.dart';
 import '../service/recipeservice.dart';
 class Netfilix extends StatefulWidget {
   final String photourl;
-  final String servis;
 
-  const Netfilix(this.photourl, this.servis, {Key? key}) : super(key: key);
+  final Uri uuri;
+
+  const Netfilix(this.photourl,this.uuri,  {Key? key}) : super(key: key);
 
   @override
   _NetfilixState createState() => _NetfilixState();
@@ -21,7 +21,7 @@ class Netfilix extends StatefulWidget {
 class _NetfilixState extends State<Netfilix> {
   late List<Recipe> _recipes;
   bool _isLoading = true;
-  late final String search = 'batman';
+
 
   @override
   void initState() {
@@ -31,13 +31,13 @@ class _NetfilixState extends State<Netfilix> {
 
 
   Future<void> getRecipes() async {
-    _recipes = await RecipeApi.getRecipe(widget.servis);
+    _recipes = await RecipeApi.getRecipe(widget.uuri);
     setState(() {
       _isLoading = false;
     });
   }
   Future<void> searchgetrecipe() async {
-    _recipes = await filterRecipeApi.searcgetRecipe(search);
+
     setState(() {
       _isLoading = false;
     });
@@ -84,40 +84,7 @@ class _NetfilixState extends State<Netfilix> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Arama'),
-                      content: TextField(
-                        onChanged: (value) {
-                        search == value;
 
-                        },
-                      ),
-                      actions: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Kapat'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            filterRecipeApi(search);
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Ara'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Icon(Icons.search),
-            ),
           ],
         ),
       ),
