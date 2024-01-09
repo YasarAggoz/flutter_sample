@@ -18,8 +18,6 @@ class _userpageState extends State<userpage> {
   var _tel;
   var _surName;
 
-
-
   users() async {
     var ref = FirebaseFirestore.instance
         .collection("users")
@@ -42,122 +40,77 @@ class _userpageState extends State<userpage> {
     users();
 
     return Scaffold(
-
       appBar: AppBar(
         title: const Text("Kullanıcı Sayfası"),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 30),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      const Text(
-                        "Kullanıcı mail:",
-                        style: TextStyle(
-                            color: Color(0xFF1F1919),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        user!.email.toString(),
-                        style: const TextStyle(
-                            color: Color(0xFF1F1919),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      text("Kullanıcı Adı:"),
-                      SizedBox(
-                        width: 10,
-                      ),
-
-                      Text('deneme'),
-
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      text("Kullanıcı Soyadı:"),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      text( 'deneme'),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      text("Kayıtlı Tel No:"),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      text('5555555'),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut().then((value) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const loginpage()));
-                      });
-                    },
-                    child: const Text("Çıkış Yap"),
-                  ),
-
-                ],
-              ),
-              Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-
-                    ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage("assets/resimler/banner.png"), // Profil resmi için yer tutucu
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  user!.displayName ?? "Kullanıcı Adı",
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
-            ],
+                const SizedBox(height: 10),
+                Text(
+                  user!.email ?? "Kullanıcı Mail",
+                  style: const TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 20),
+                const Divider(thickness: 1),
+                const SizedBox(height: 20),
+                const Text(
+                  "Kullanıcı Bilgileri",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                _buildInfoRow("Kullanıcı Adı:", "$_name"),
+                _buildInfoRow("Kullanıcı Soyadı:", "$_surName"),
+                _buildInfoRow("Kayıtlı Tel No:", "$_tel"),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut().then((value) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const loginpage()));
+                    });
+                  },
+                  child: const Text("Çıkış Yap"),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-}
 
-Widget text(String txxt) {
-  return Text(
-    txxt,
-    style: const TextStyle(
-      color: Colors.black,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    ),
-  );
+  Widget _buildInfoRow(String label, String value) {
+    return Row(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontSize: 16),
+        ),
+        const Spacer(),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
 }

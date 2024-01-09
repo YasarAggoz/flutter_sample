@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 import '../sekmeler/netflix.dart';
 
-Widget platform ( String photourl , context ) {
+Widget platform ( String photourl ,String service, context ) {
   return
     GestureDetector(
       onTap: (){
         Navigator.push (
           context,
-          MaterialPageRoute(builder: (context) =>  Netfilix(photourl)),
+          MaterialPageRoute(builder: (context) =>  Netfilix(photourl,service)),
         );
   },
   child: Container(

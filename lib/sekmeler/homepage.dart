@@ -1,5 +1,9 @@
 
+import 'package:dizi_takip/sekmeler/endlistpage.dart';
+import 'package:dizi_takip/sekmeler/tabiipage.dart';
 import 'package:dizi_takip/sekmeler/userpage.dart';
+import 'package:dizi_takip/sekmeler/wachlist.dart';
+import 'package:dizi_takip/service/rapidapi.dart';
 import 'package:dizi_takip/widgetler/platformlar.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +32,7 @@ class _HomepageState extends State<Homapage> {
         {
           Navigator.push (
             context,
-            MaterialPageRoute(builder: (context) => const Homapage()),
+            MaterialPageRoute(builder: (context) =>  wachlist()),
           );
         }
         if (selectedIndex == 2)
@@ -42,13 +46,14 @@ class _HomepageState extends State<Homapage> {
         {
           Navigator.push (
             context,
-            MaterialPageRoute(builder: (context) => const Homapage()),
+            MaterialPageRoute(builder: (context) => const EndListPage()),
           );
         }
 
       });
     }
     return Scaffold (
+
       backgroundColor: Colors.black45,
       body: SafeArea(
         child: Column (
@@ -66,33 +71,45 @@ class _HomepageState extends State<Homapage> {
               ),
 
             ),
-             const SizedBox(height: 5,) ,
-            platform("assets/resimler/net.png", context),
-            const SizedBox(height: 5,) ,
-            platform("assets/resimler/prime.png", context),
-            const SizedBox(height: 5,) ,
-            platform("assets/resimler/hbo.png", context ),
-            const SizedBox(height: 5,) ,
-            platform("assets/resimler/exxen.png", context),
-            const SizedBox(height: 5,) ,
-            platform("assets/resimler/tabii.png",context ),
 
-            // SizedBox(height: 10,) ,
-            // Padding(padding: EdgeInsets.only(top: 10),
-            // child: Container(
-            //   width: 400,
-            //   height: 100,
-            //   padding: EdgeInsets.only(left: 20,top: 15,bottom: 15,right: 30),
-            //   decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(30)),
-            //   child: Image.asset("assets/resimler/net.png"),
-            // ),
-            // ),
+             const SizedBox(height: 5,) ,
+            platform("assets/resimler/net.png",'netflix', context),
+            const SizedBox(height: 5,) ,
+            platform("assets/resimler/prime.png",'prime.subscription', context),
+            const SizedBox(height: 5,) ,
+            platform("assets/resimler/hbo.png",'hbo,hulu.addon.hbo,prime.addon.hbomaxus', context ),
+            const SizedBox(height: 5,) ,
+            platform("assets/resimler/apple.png",'apple.addon',context),
+            const SizedBox(height: 5,) ,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Tabiipage()),
+                );
+              },
+              child: Container(
+                width: 300,
+                height: 75,
+                padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 20),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Image.asset("assets/resimler/tabii.png"),
+              ),
+            ),
+
+
 
 
          ],
 
+
         ),
-        // child: _widgetOptions.elementAt(selectedIndex),
+
+
+
 
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -122,6 +139,7 @@ class _HomepageState extends State<Homapage> {
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
+
     );
   }
 }

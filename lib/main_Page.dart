@@ -34,30 +34,7 @@ class main_page extends StatelessWidget {
         },
 
       ),
-      // backgroundColor: Colors.red,
 
-      // body: SafeArea(
-      //   child: Stack(
-      //     children: [
-      //      Center(
-      //        child:  ElevatedButton(
-      //            style:  ElevatedButton.styleFrom( backgroundColor: Colors.blue ), child: null,
-      //
-      //
-      //            onPressed:() async {
-      //              Navigator.push(
-      //                  context, MaterialPageRoute(builder: (context) {
-      //                return
-      //                  loginpage();
-      //              }
-      //              )
-      //              );
-      //            }
-      //        ),
-      //      )
-      //     ],
-      //   )
-      // )
 
     );
   }
