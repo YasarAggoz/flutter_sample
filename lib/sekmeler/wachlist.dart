@@ -45,11 +45,12 @@ class _wachlistState extends State<wachlist> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+
                             // Sezon sayısı için dropdown menu
                             DropdownButtonFormField(
                               value: dizi['sezonSayisi'],
                               items: [
-                                for (var i = 1; i <= 10; i++)
+                                for (var i = 1; i <= dizi['sezonSayisi']; i++)
                                   DropdownMenuItem(
                                     value: i,
                                     child: Text(i.toString()),
@@ -64,18 +65,38 @@ class _wachlistState extends State<wachlist> {
                             DropdownButtonFormField(
                               value: dizi['bolumSayisi'],
                               items: [
-                                for (var i = 1; i <= 100; i++)
+                                for (var i = 1; i <=dizi['bolumSayisi'] ; i++)
                                   DropdownMenuItem(
                                     value: i,
                                     child: Text(i.toString()),
                                   ),
                               ],
                               onChanged: (bolumSayisi) {
-                                // Bölüm sayısını güncelle
+                                int bolumNo = bolumSayisi as int;
                                 dizi['bolumSayisi'] = bolumSayisi;
+                                Map<String, dynamic> kaldigimbolum = {
+                                  'bolumNo': bolumNo,
+                                };
+                                dizi['kaldigimbolum'] = kaldigimbolum;
+
+                                  _firestore
+                                   .collection('users')
+                                     .doc('$useruid')
+                                      .update({
+                                       'izlemekteOldugumDiziler': izlemekteOldugumDiziler
+                                  });
+                                Navigator.pop(context);
                               },
                             ),
+                          Row(
+                              children: [
+                                if (dizi.containsKey('kaldigimbolum')) Text('Kaldığın Bölüm: ${dizi['kaldigimbolum']['bolumNo']}'),
+
+                      ],
+
+                      ),
                           ],
+
                         ),
                         actions: [
                           // Güncelle butonu
@@ -93,6 +114,7 @@ class _wachlistState extends State<wachlist> {
                             child: Text('Güncelle'),
                           ),
                         ],
+
                       );
                     },
                   );

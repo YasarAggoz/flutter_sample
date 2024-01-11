@@ -77,34 +77,4 @@ class RecipeCard extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Recipes'),
-      ),
-      body: ListView(
-        children: [
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              RecipeCard(name: 'dizi', sezon: 1, bolm: 1),
-              RecipeCard(name: 'dizi', sezon: 2, bolm: 2),
-            ],
-          ),
-          // Alt alta 2 tane card
-          Column(
-            children: [
-              RecipeCard(name: 'dizi', sezon: 3, bolm: 3),
-              RecipeCard(name: 'dizi', sezon: 4, bolm: 4),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}

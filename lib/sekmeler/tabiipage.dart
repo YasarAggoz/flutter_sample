@@ -65,7 +65,12 @@ class _TabiiState extends State<Tabiipage> {
           final diziler = snapshot.data!;
           final tabidizi = diziler['diziler'] ?? [];
 
-          return ListView.builder(
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+            ),
 
             itemCount: tabidizi.length,
             itemBuilder: (context, index) {
@@ -74,6 +79,7 @@ class _TabiiState extends State<Tabiipage> {
                 name: dizi['diziIsmi'].toString(),
                 sezon: dizi['sezonSayisi'],
                 bolm: dizi['bolumSayisi'],
+                imageurl: dizi['image'],
               );
             },
           );
